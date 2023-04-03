@@ -3,6 +3,7 @@ const request = require('supertest')
 const app = require('../app.js')
 const seedDB = require('../db/seeds.js')
 require('dotenv').config({ path: '.env.test' });
+const password = require('../test-password.js')
 
 beforeAll(async () => {
   await mongoose.connect(process.env.DATABASE_URL)
@@ -79,6 +80,7 @@ describe('userModels', () => {
           firebase_id: '12eef1f2-d9ec-4aab-88b9-68528940ca0',
           name: 'Test User Has Name'
         })
+        .set({authorization:password})
         .expect(201)
         .then(({ body: { user } }) => {
           expect(user).toMatchObject({
