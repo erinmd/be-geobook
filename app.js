@@ -1,18 +1,21 @@
-import express from "express";
-import {
+const express = require('express')
+const {
   handle500s,
   handleCustomError,
-} from "./controllers/errors-controllers";
-import apiRouter from "./routes/api-router";
+  handleMongooseErrors
+} = require('./controllers/errors-controllers.js')
+const apiRouter = require('./routes/api-router.js')
+const decodeIDToken = require('./authenticateToken.js')
 
-const app = express();
+const app = express()
 
-app.use(express.json());
+app.use(express.json())
 
-app.use("/api", apiRouter);
+app.use(decodeIDToken)
+app.use('/api', apiRouter)
 
-app.use(handleCustomError);
+app.use(handleCustomError)
+app.use(handleMongooseErrors)
+app.use(handle500s)
 
-app.use(handle500s);
-
-export default app;
+module.exports = app

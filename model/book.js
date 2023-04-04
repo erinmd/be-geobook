@@ -1,17 +1,25 @@
-import mongoose from "mongoose"
+const mongoose =  require("mongoose");
 
-const GeoSchema = new mongoose.Schema({
-  type: {
-    type: String,
-    default: "Point",
+const GeoSchema = new mongoose.Schema(
+  {
+    type: {
+      type: String,
+      default: "Point",
+    },
+    coordinates: {
+      type: [Number],
+      index: "2dsphere",
+    },
   },
-  coordinates: {
-    type: [Number],
-    index: "2dsphere",
-  },
-});
+  { _id: false }
+);
 // location :{"type":"point", "coordinates":[-80.23, 24.87]}
 const bookSchema = new mongoose.Schema({
+  _id: {
+    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    auto: true,
+  },
   title: {
     required: true,
     type: String,
@@ -39,4 +47,4 @@ const bookSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model("books", bookSchema);
+module.exports = mongoose.model("books", bookSchema);

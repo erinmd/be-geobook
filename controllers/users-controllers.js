@@ -1,26 +1,45 @@
-import userModel from "../model/user.js";
-import { sanitizeFilter } from "mongoose";
+const userModel = require('../model/user.js')
 
-export const getUsers = async (req, res) => {
+exports.getUsers = async (req, res) => {
   try {
-    const userData = await userModel.find();
-    return res.status(200).send({ users: userData });
+    const userData = await userModel.find()
+    return res.status(200).send({ users: userData })
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    next(error)
   }
-};
+}
 
-export const getUser = async (req, res, next) => {
+exports.getUser = async (req, res, next) => {
   try {
     const userData = await userModel
-      .findOne({ username: req.params.username })
-      .setOptions({ sanitizeFilter: true });
+      .findOne({ firebase_id: req.params.id })
+      .setOptions({ sanitizeFilter: true })
     if (!userData) {
-      await Promise.reject({ status: 404, msg: "User Not Found" });
+      await Promise.reject({ status: 404, msg: 'User Not Found' })
     } else {
-      return res.status(200).send({ user: userData });
+      return res.status(200).send({ user: userData })
     }
   } catch (error) {
-    next(error);
+    next(error)
   }
-};
+}
+
+exports.postUser = async (req, res, next) => {
+  const auth = req.currentUser
+  if (auth) {
+    console.log('authorized!')
+    try {
+      const newUser = new userModel({
+        username: req.body.username,
+        firebase_id: req.body.firebase_id,
+        name: req.body.name
+      })
+      const dataToSave = await newUser.save()
+      return res.status(201).send({ user: dataToSave })
+    } catch (error) {
+      next(error)
+    }
+  }
+  console.log('not authorised')
+  return res.status(403).send({msg:'Not authorized'})
+}
