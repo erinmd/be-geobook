@@ -2,6 +2,9 @@ const mongoose = require('mongoose')
 const request = require('supertest')
 const app = require('../app.js')
 const seedDB = require('../db/seeds.js')
+const userData = require('./testData/userData.js')
+const bookData = require('./testData/bookData.js')
+
 require('dotenv').config({ path: '.env.test' });
 
 beforeAll(async () => {
@@ -9,7 +12,7 @@ beforeAll(async () => {
 })
 
 beforeEach(async () => {
-  await seedDB()
+  await seedDB(bookData, userData)
 })
 
 afterAll(async () => {

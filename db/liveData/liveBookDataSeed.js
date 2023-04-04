@@ -1,4 +1,4 @@
-export const liveBookDataSeed = [
+const liveBookDataSeed = [
   {
     title: "To Kill A Mockingbird",
     author: "Harper Lee",
@@ -243,3 +243,5 @@ export const liveBookDataSeed = [
     location_description: "Leeds Dog's Trust have all the answers!",
   },
 ];
+
+module.exports = liveBookDataSeed

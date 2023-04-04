@@ -1,4 +1,4 @@
-export const liveUserDataSeed = [
+const liveUserDataSeed = [
   {
     username: "Cyril.Russel",
     firebase_id: "3cfa269a-bfb1-4a31-a6d2-e776c199e5eb",
@@ -188,3 +188,5 @@ export const liveUserDataSeed = [
     ],
   },
 ];
+
+module.exports = liveUserDataSeed
