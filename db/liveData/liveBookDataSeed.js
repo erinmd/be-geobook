@@ -23,18 +23,6 @@ const liveBookDataSeed = [
     location_description: "The central sedimentary is not what it seems!",
   },
   {
-    title: "To Kill A Mockingbird",
-    author: "Harper Lee",
-    genre: "Crime Drama",
-    posted_by: "Cyril.Russel",
-    location: {
-      type: "Point",
-      coordinates: [-1.5682, 53.8027],
-    },
-    location_description:
-      "Amazing book! The clue for this cache is it's higher than you think!",
-  },
-  {
     title: "The Handmaid's Tale",
     author: "Margaret Atwood",
     genre: "Dystopian",
@@ -47,7 +35,7 @@ const liveBookDataSeed = [
       "Took me ages to find this one! Find the cache by the statue of the feminine figure",
   },
   {
-    title: "Litte Women",
+    title: "Little Women",
     author: "Louisa May Alcott",
     genre: "Feminist Fiction",
     posted_by: "Annetta_Parker",
