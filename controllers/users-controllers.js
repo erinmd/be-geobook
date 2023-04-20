@@ -28,7 +28,6 @@ exports.getUser = async (req, res, next) => {
 exports.postUser = async (req, res, next) => {
   const auth = req.currentUser
   if (auth) {
-    console.log('authorized!')
     try {
       const newUser = new userModel({
         username: req.body.username,
@@ -40,18 +39,22 @@ exports.postUser = async (req, res, next) => {
     } catch (error) {
       next(error)
     }
+  } else {
+    return res.status(403).send({ msg: 'Not authorized' })
   }
-  console.log('not authorised')
-  return res.status(403).send({msg:'Not authorized'})
 }
 
 exports.patchUser = async (req, res, next) => {
   try {
     const id = req.params.id
-    const {claimed_book} = req.body 
-    const options = {safe: true, upsert: true, new:true}
-    const result = await userModel.findOneAndUpdate({ firebase_id: req.params.id }, {$push: {"claimed_books": claimed_book}}, options)
-    res.status(200).send({user:result})
+    const { claimed_book } = req.body
+    const options = { safe: true, upsert: true, new: true }
+    const result = await userModel.findOneAndUpdate(
+      { firebase_id: req.params.id },
+      { $push: { claimed_books: claimed_book } },
+      options
+    )
+    res.status(200).send({ user: result })
   } catch (error) {
     next(error)
   }

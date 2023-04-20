@@ -13,7 +13,7 @@ https://github.com/beckybp
 https://github.com/rovercode1
 https://github.com/01gibbs
 
-We used MongoDB, mongoose, express, node and jest for this project. The frontend for this project is hosted here: https://github.com/erinmd/geobook-be using react native and firebase authentication.
+We used MongoDB, mongoose, express, node, and jest for this project. Firebase authentication is also used to secure our endpoints. The frontend for this project is hosted here: https://github.com/erinmd/geobook-be using react native.
 
 Most of this technology was new to us, and we enjoyed the challenge of learning how to use it all!
 
@@ -46,7 +46,7 @@ $ git push -u origin main
 npm i
 ````
 
-### Setup your .enc files
+### Setup your .env files
 You will need to create two .env files `.env` and `.env.test`
 For each file you need to add `DATABASE_URL = <MongoDB_URL_here>`
 

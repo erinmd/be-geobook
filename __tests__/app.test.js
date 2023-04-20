@@ -2,8 +2,8 @@ const mongoose = require('mongoose')
 const request = require('supertest')
 const app = require('../app.js')
 const seedDB = require('../db/seeds.js')
-const userData = require('./testData/userData.js')
-const bookData = require('./testData/bookData.js')
+const userData = require('../db/testData/userData')
+const bookData = require('../db/testData/bookData.js')
 
 require('dotenv').config({ path: '.env.test' });
 const password = require('../test-password.js')
@@ -102,6 +102,7 @@ describe('userModels', () => {
           name: 'Test User Has Name',
           claimed_books: ['book1', 'book2']
         })
+        .set({authorization:password})
         .expect(201)
         .then(({ body: { user } }) => {
           expect(user).toMatchObject({
@@ -118,6 +119,7 @@ describe('userModels', () => {
           username: 'TestUser1',
           firebase_id: '12eef1f2-d9ec-4aab-88b9-68528940ca0'
         })
+        .set({authorization:password})
         .expect(400)
         .then(({ body: { msg } }) => {
           expect(msg).toBe('name is a required field')
@@ -132,6 +134,7 @@ describe('userModels', () => {
           name: 'Test User Has Name',
           claimed_books: ['book1', 'book2']
         })
+        .set({authorization:password})
         .expect(400)
         .then(({ body: { msg } }) => {
           expect(msg).toBe('username field should be a string')
@@ -139,7 +142,7 @@ describe('userModels', () => {
     })
   })
 
-  describe.only('PATCH: /api/users/:id', () => {
+  describe('PATCH: /api/users/:id', () => {
     test('200: returns updated user', () => {
       return request(app)
         .patch('/api/users/02d1fad1-1022-4e88-93c8-e0fcc0874306')
