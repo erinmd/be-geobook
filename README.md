@@ -8,10 +8,10 @@ Discover hidden books around the world with our geocaching book app! Use GPS to 
 
 This was a final group project for the Northcoders bootcamp. We worked in a team of 4 for 2 weeks, to create this app. Team:
 
-https://github.com/erinmd
-https://github.com/beckybp
-https://github.com/rovercode1
-https://github.com/01gibbs
+- https://github.com/erinmd
+- https://github.com/beckybp
+- https://github.com/rovercode1
+- https://github.com/01gibbs
 
 We used MongoDB, mongoose, express, node, and jest for this project. Firebase authentication is also used to secure our endpoints. The frontend for this project is hosted here: https://github.com/erinmd/geobook-be using react native.
 
