@@ -1,8 +1,6 @@
 # GeoBook
 
-Video demo: https://youtu.be/N3RGeBJiaps
-
-Discover hidden books around the world with our geocaching book app! Use GPS to find books in specific locations, read them, leave reviews, and connect with other book lovers.
+Hosted API: https://geobook-api.onrender.com
 
 ## Project Summary
 
