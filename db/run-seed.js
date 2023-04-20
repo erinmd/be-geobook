@@ -1,3 +1,5 @@
+const bookData = require('./liveData/liveBookDataSeed')
+const userData = require('./liveData/liveUserDataSeed')
 
 require('dotenv').config({
   path: `.env`
@@ -9,7 +11,7 @@ const mongoose =  require('mongoose')
 
 const runSeed = async () => {
     await mongoose.connect(process.env.DATABASE_URL)
-    await seedDB()
+    await seedDB(bookData,userData)
     await mongoose.connection.close()
 }
 

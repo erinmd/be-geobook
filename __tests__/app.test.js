@@ -2,6 +2,9 @@ const mongoose = require('mongoose')
 const request = require('supertest')
 const app = require('../app.js')
 const seedDB = require('../db/seeds.js')
+const userData = require('./testData/userData.js')
+const bookData = require('./testData/bookData.js')
+
 require('dotenv').config({ path: '.env.test' });
 const password = require('../test-password.js')
 
@@ -10,7 +13,7 @@ beforeAll(async () => {
 })
 
 beforeEach(async () => {
-  await seedDB()
+  await seedDB(bookData, userData)
 })
 
 afterAll(async () => {
@@ -132,6 +135,45 @@ describe('userModels', () => {
         .expect(400)
         .then(({ body: { msg } }) => {
           expect(msg).toBe('username field should be a string')
+        })
+    })
+  })
+
+  describe.only('PATCH: /api/users/:id', () => {
+    test('200: returns updated user', () => {
+      return request(app)
+        .patch('/api/users/02d1fad1-1022-4e88-93c8-e0fcc0874306')
+        .send({
+          claimed_book: {
+            title: 'Another Book',
+            author: 'Authortest',
+            genre: 'Action',
+            thumbnail:
+              'http://books.google.com/books/content?id=bPQCzE1eTbcC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api'
+          }
+        })
+        .expect(200)
+        .then(({ body: { user } }) => {
+          expect(user.username).toBe('Marquis69')
+          expect(user.firebase_id).toBe('02d1fad1-1022-4e88-93c8-e0fcc0874306')
+          expect(user.name).toBe('Roger Monahan')
+          expect(user.claimed_books).toEqual([
+            {
+              title:
+                'Proposals for establishing ... a Joint Stock Tontine Company ... for the purpose of ascertaining the principles of agricultural improvement, etc. L.P.',
+              author: 'John SINCLAIR (Right Hon. Sir)',
+              genre: 'Action',
+              thumbnail:
+                'http://books.google.com/books/content?id=bPQCzE1eTbcC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api'
+            },
+            {
+              title: 'Another Book',
+              author: 'Authortest',
+              genre: 'Action',
+              thumbnail:
+                'http://books.google.com/books/content?id=bPQCzE1eTbcC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api'
+            }
+          ])
         })
     })
   })
@@ -300,34 +342,33 @@ describe('bookModels', () => {
         .then(({ body: { msg } }) => {
           expect(msg).toBe('coordinates.0 field should be a [Number]')
         })
-      })
+    })
   })
 
   describe('DELETE: /api/books/:id', () => {
-    test('200 responds with msg', ()=>{
+    test('200 responds with msg', () => {
       return request(app)
-      .delete('/api/books/6425407dba5e321df2803b39')
-      .expect(200)
-      .then(({body: {msg}}) =>{
-        expect(msg).toBe('Book deleted')
-      })
+        .delete('/api/books/6425407dba5e321df2803b39')
+        .expect(200)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe('Book deleted')
+        })
     })
-    test('404 non-existent book', ()=>{
+    test('404 non-existent book', () => {
       return request(app)
-      .delete('/api/books/5425407dba5e321df2803b39')
-      .expect(404)
-      .then(({body: {msg}}) =>{
-        expect(msg).toBe('Book not found')
-      })
+        .delete('/api/books/5425407dba5e321df2803b39')
+        .expect(404)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe('Book not found')
+        })
     })
-    test('400 invalid book id', ()=>{
+    test('400 invalid book id', () => {
       return request(app)
-      .delete('/api/books/notABookId6')
-      .expect(400)
-      .then(({body: {msg}}) =>{
-        expect(msg).toBe('_id field should be a ObjectId')
-      })
+        .delete('/api/books/notABookId6')
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe('_id field should be a ObjectId')
+        })
     })
-  });
-  
+  })
 })
